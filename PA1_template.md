@@ -70,6 +70,49 @@ stepsinv[which.max(stepsinv$steps), ]
 
 ## Imputing missing values
 
+
+```r
+#In order to fill the missing values we'll first check how many of them we have
+paste("Rows with NA are", sum(is.na(bufferdata$steps)))
+```
+
+```
+## [1] "Rows with NA are 2304"
+```
+
+```r
+#We replace NA values with mean value
+tempvec<-(replace(bufferdata$steps, is.na(bufferdata$steps), mean(bufferdata$steps, na.rm = TRUE)))
+#clone the bufferdata
+imputeddata<-bufferdata
+#replace steps with imputed steps (NA-mean)
+imputeddata$steps<-tempvec
+#Re-create our histogram with imputed date
+histdataQ<-data.frame(with(imputeddata,tapply(imputeddata$steps,imputeddata$date,FUN=sum, na.rm=TRUE)))
+colnames(histdataQ)<-c("steps")
+qplot(histdataQ$steps, binwidth = 1200, xlab = "(steps number) / (day)",fill = I("lightsalmon2"),ylim=c(0,11),colour=I("red"))
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```r
+#Re-calculate mean with imputed values
+paste("mean steps : ", mean(histdataQ$steps))
+```
+
+```
+## [1] "mean steps :  10766.1886792453"
+```
+
+```r
+#Re-calculate median with imputed values
+paste("median steps : ", median(histdataQ$steps))
+```
+
+```
+## [1] "median steps :  10766.1886792453"
+```
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
 
