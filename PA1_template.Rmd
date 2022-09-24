@@ -78,7 +78,7 @@ hd1$date<-weekdays(as.Date(hd1$date))
 hd1$date <- ifelse(hd1$date == "Saturday"|hd1$date=="Sunday", "Weekend", "Weekday")   
 #Create an aggregated table by (week(day/end)-factor and interval
 meanfactorday<-aggregate(steps ~ interval+date, hd1, mean)
-#Comparison side by side
+#Comparison side by side (vertical)
 ggplot(data = meanfactorday, aes(x = interval, y = steps,color=date)) + geom_line()+facet_grid(date~.) + xlab("5 minute interval") + ylab("average number of steps taken")
 #Comparison on same plot
 ggplot(data = meanfactorday, aes(x = interval, y = steps,color=date)) + geom_line() + xlab("5 minute interval") + ylab("average number of steps taken")
