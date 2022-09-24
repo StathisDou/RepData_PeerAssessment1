@@ -48,6 +48,26 @@ paste("median steps : ", median(histdata$steps))
 
 ## What is the average daily activity pattern?
 
+
+```r
+#Aggregate mean steps by interval
+stepsinv<-aggregate(steps ~ interval, bufferdata, mean)
+#Plot for interval and steps on aggregated table
+ggplot(data = stepsinv, aes(x = interval, y = steps, color="red")) + geom_line() + xlab("5 minute interval") + ylab("average number of steps taken")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
+#Get interval with most average steps and the average for it
+stepsinv[which.max(stepsinv$steps), ]
+```
+
+```
+##     interval    steps
+## 104      835 206.1698
+```
+
 ## Imputing missing values
 
 ## Are there differences in activity patterns between weekdays and weekends?
