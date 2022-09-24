@@ -1,8 +1,9 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
+title: 'Reproducible Research: Peer Assessment 1'
+output:
   html_document:
-    keep_md: true
+    keep_md: yes
+  pdf_document: default
 ---
 
 ## Loading and preprocessing the data
@@ -68,4 +69,18 @@ paste("median steps : ", median(histdataQ$steps))
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
+```{R}
+#Save imputed data on a new table
+hd1<-imputeddata
+#Converting date col to date and then to weekday
+hd1$date<-weekdays(as.Date(hd1$date))
+#Converting actual weekday to factor (Weekend or Weekday day)
+hd1$date <- ifelse(hd1$date == "Saturday"|hd1$date=="Sunday", "Weekend", "Weekday")   
+#Create an aggregated table by (week(day/end)-factor and interval
+meanfactorday<-aggregate(steps ~ interval+date, hd1, mean)
+#Comparison side by side
+ggplot(data = meanfactorday, aes(x = interval, y = steps,color=date)) + geom_line()+facet_grid(date~.) + xlab("5 minute interval") + ylab("average number of steps taken")
+#Comparison on same plot
+ggplot(data = meanfactorday, aes(x = interval, y = steps,color=date)) + geom_line() + xlab("5 minute interval") + ylab("average number of steps taken")
 
+```
